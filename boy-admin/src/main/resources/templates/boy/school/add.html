@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg" onload="init()">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">经度：</label>
+                            <div class="col-sm-8">
+                                <input id="longitude" readonly="readonly" name="longitude" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">纬度：</label>
+                            <div class="col-sm-8">
+                                <input id="latitude" readonly="readonly"  name="latitude" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">分校名称：</label>
+                            <div class="col-sm-8">
+                                <input id="name" name="name" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">地址：</label>
+                            <div class="col-sm-8">
+                                <textarea id="address" name="address" class="form-control" rows="3" type="text" ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">地图</label>
+                            <div class="col-sm-8">
+
+                                <div class="panel panel-default">
+                                    <div id="container" class="panel-body" style="height: 400px;">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/boy/school/add.js">
+</script>
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=ZT4BZ-NY5KP-YJMDP-VA6LN-P2MS5-TRFAB"></script>
+
+<script>
+
+    function init() {
+
+        var map = new qq.maps.Map(document.getElementById("container"),{
+
+            center: new qq.maps.LatLng(22.553147478403194, 114.049072265625),
+
+            zoom: 13
+
+        });
+
+        //添加监听事件  获取鼠标单击事件
+
+        qq.maps.event.addListener(map, 'click', function(event) {
+
+            var marker=new qq.maps.Marker({
+
+                position:event.latLng,
+
+                map:map
+
+            });
+
+            setLocation(event.latLng.getLng(),event.latLng.getLat());
+
+            qq.maps.event.addListener(map, 'click', function(event) {
+
+                marker.setMap(null);
+
+            });
+
+        });
+
+    }
+    function setLocation(longitude,latitude) {
+        $("#longitude").val(longitude);
+        $("#latitude").val(latitude);
+    }
+
+</script>
+</body>
+</html>

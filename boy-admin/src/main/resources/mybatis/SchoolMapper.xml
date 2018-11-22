@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.boy.dao.SchoolDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.bootdo.boy.entity.SchoolEntity" id="schoolMap">
+        <result property="id" column="id"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="deleteIt" column="delete_it"/>
+        <result property="userAdd" column="user_add"/>
+        <result property="modify" column="modify"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.bootdo.boy.entity.SchoolEntity">
+		select * from school where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bootdo.boy.entity.SchoolEntity">
+		select * from school
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from school 
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.boy.entity.SchoolEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into school
+		(
+			`longitude`, 
+			`latitude`, 
+			`name`, 
+			`address`, 
+			`delete_it`, 
+			`user_add`, 
+			`modify`
+		)
+		values
+		(
+			#{longitude}, 
+			#{latitude}, 
+			#{name}, 
+			#{address}, 
+			#{deleteIt}, 
+			#{userAdd}, 
+			#{modify}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.boy.entity.SchoolEntity">
+		update school 
+		<set>
+			<if test="longitude != null">`longitude` = #{longitude}, </if>
+			<if test="latitude != null">`latitude` = #{latitude}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="deleteIt != null">`delete_it` = #{deleteIt}, </if>
+			<if test="userAdd != null">`user_add` = #{userAdd}, </if>
+			<if test="modify != null">`modify` = #{modify}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from school where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from school where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,23 @@
+server:
+  port: 9099
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://139.224.64.223:3306/boyue?useUnicode=true&characterEncoding=utf8
+    username: xuqijin123
+    password: xuqijin123
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+logging:
+  level:
+    root: info
+    org.mybatis: info
+    com.bootdo: debug
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true

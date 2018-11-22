@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.boy.dao.AdminDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.bootdo.boy.entity.AdminEntity" id="adminMap">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="pwd" column="pwd"/>
+        <result property="mtime" column="mtime"/>
+        <result property="utime" column="utime"/>
+        <result property="deleteIt" column="delete_it"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.bootdo.boy.entity.AdminEntity">
+		select * from admin where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bootdo.boy.entity.AdminEntity">
+		select * from admin
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from admin 
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.boy.entity.AdminEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into admin
+		(
+			`username`, 
+			`pwd`, 
+			`mtime`, 
+			`utime`, 
+			`delete_it`
+		)
+		values
+		(
+			#{username}, 
+			#{pwd}, 
+			#{mtime}, 
+			#{utime}, 
+			#{deleteIt}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.boy.entity.AdminEntity">
+		update admin 
+		<set>
+			<if test="username != null">`username` = #{username}, </if>
+			<if test="pwd != null">`pwd` = #{pwd}, </if>
+			<if test="mtime != null">`mtime` = #{mtime}, </if>
+			<if test="utime != null">`utime` = #{utime}, </if>
+			<if test="deleteIt != null">`delete_it` = #{deleteIt}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from admin where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from admin where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
