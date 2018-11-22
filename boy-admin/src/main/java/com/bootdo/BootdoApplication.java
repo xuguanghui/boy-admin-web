@@ -17,7 +17,7 @@ public class BootdoApplication {
 		SpringApplication.run(BootdoApplication.class, args);
 		System.out.println("*****************************");
 		System.out.println("*****************************");
-		System.out.println("*******boy-admin-web启动成功*****");
+		System.out.println("*******boy-admin-web启dong*****");
 		System.out.println("*****************************");
 		System.out.println("*****************************");
 	}
