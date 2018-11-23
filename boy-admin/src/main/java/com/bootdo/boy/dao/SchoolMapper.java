@@ -46,8 +46,10 @@ public interface SchoolMapper {
 @Results({
 		@Result(column="id", property="id", jdbcType= JdbcType.INTEGER, id=true),
 		@Result(property ="userAddname",column="user_add"
-
-				,one =@One(select ="com.bootdo.boy.dao.AdminMapper.getName"))})
+				,one =@One(select ="com.bootdo.boy.dao.AdminMapper.getName")),
+		@Result(property ="modifyname",column="modify"
+				,one =@One(select ="com.bootdo.boy.dao.AdminMapper.getName"))
+})
 	List<SchoolDO> list(Map<String, Object> map);
 	
 	@Select("<script>" +

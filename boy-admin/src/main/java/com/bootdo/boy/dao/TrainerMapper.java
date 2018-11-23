@@ -2,15 +2,11 @@
 package com.bootdo.boy.dao;
 
 import com.bootdo.boy.domain.TrainerDO;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 /**
  * 教练表
  * 
@@ -25,16 +21,16 @@ public interface TrainerMapper {
 	TrainerDO get(Long id);
 	
 	@Select("<script>" +
-	"select * from trainer " + 
+	"select tr.*,sc.`name` as schoolName FROM trainer  tr LEFT JOIN school_trainer st on tr.id=st.trainer_id LEFT JOIN school sc on st.school_id=sc.id " +
 			"<where>" + 
-		  		  "<if test=\"id != null and id != ''\">"+ "and id = #{id} " + "</if>" + 
-		  		  "<if test=\"name != null and name != ''\">"+ "and name = #{name} " + "</if>" + 
-		  		  "<if test=\"shortDesc != null and shortDesc != ''\">"+ "and short_desc = #{shortDesc} " + "</if>" + 
-		  		  "<if test=\"pic != null and pic != ''\">"+ "and pic = #{pic} " + "</if>" + 
-		  		  "<if test=\"userAdd != null and userAdd != ''\">"+ "and user_add = #{userAdd} " + "</if>" + 
-		  		  "<if test=\"modify != null and modify != ''\">"+ "and modify = #{modify} " + "</if>" + 
-		  		  "<if test=\"deleteIt != null and deleteIt != ''\">"+ "and delete_it = #{deleteIt} " + "</if>" + 
-		  		  "<if test=\"mobile != null and mobile != ''\">"+ "and mobile = #{mobile} " + "</if>" + 
+		  		  "<if test=\"id != null and id != ''\">"+ "and tr.id = #{id} " + "</if>" +
+		  		  "<if test=\"name != null and name != ''\">"+ "and tr.name = #{name} " + "</if>" +
+		  		  "<if test=\"shortDesc != null and shortDesc != ''\">"+ "and tr.short_desc = #{shortDesc} " + "</if>" +
+		  		  "<if test=\"pic != null and pic != ''\">"+ "and tr.pic = #{pic} " + "</if>" +
+		  		  "<if test=\"userAdd != null and userAdd != ''\">"+ "and tr.user_add = #{userAdd} " + "</if>" +
+		  		  "<if test=\"modify != null and modify != ''\">"+ "and tr.modify = #{modify} " + "</if>" +
+		  		  "<if test=\"deleteIt != null and deleteIt != ''\">"+ "and tr.delete_it = #{deleteIt} " + "</if>" +
+		  		  "<if test=\"mobile != null and mobile != ''\">"+ "and tr.mobile = #{mobile} " + "</if>" +
 		  			"</where>"+ 
 			" <choose>" + 
 	            "<when test=\"sort != null and sort.trim() != ''\">" + 
@@ -48,6 +44,14 @@ public interface TrainerMapper {
 			"limit #{offset}, #{limit}" + 
 			"</if>"+
 			"</script>")
+	@Results({
+			@Result(column="id", property="id", jdbcType= JdbcType.INTEGER, id=true),
+			@Result(property ="userAddname",column="user_add"
+					,one =@One(select ="com.bootdo.boy.dao.AdminMapper.getName")),
+			@Result(property ="modifyname",column="modify"
+					,one =@One(select ="com.bootdo.boy.dao.AdminMapper.getName")),
+			@Result(property ="schoolName",column="schoolName")
+	})
 	List<TrainerDO> list(Map<String, Object> map);
 	
 	@Select("<script>" +

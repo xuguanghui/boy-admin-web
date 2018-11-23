@@ -1,69 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
-	<div class="wrapper wrapper-content animated fadeInRight">
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="ibox float-e-margins">
-					<div class="ibox-content">
-						<form class="form-horizontal m-t" id="signupForm">
-														<div class="form-group">
-								<label class="col-sm-3 control-label">：</label>
-								<div class="col-sm-8">
-									<input id="name" name="name" class="form-control" type="text">
-								</div>
-							</div>
-																					<div class="form-group">
-								<label class="col-sm-3 control-label">：</label>
-								<div class="col-sm-8">
-									<input id="shortDesc" name="shortDesc" class="form-control" type="text">
-								</div>
-							</div>
-																					<div class="form-group">
-								<label class="col-sm-3 control-label">：</label>
-								<div class="col-sm-8">
-									<input id="pic" name="pic" class="form-control" type="text">
-								</div>
-							</div>
-																					<div class="form-group">
-								<label class="col-sm-3 control-label">：</label>
-								<div class="col-sm-8">
-									<input id="userAdd" name="userAdd" class="form-control" type="text">
-								</div>
-							</div>
-																					<div class="form-group">
-								<label class="col-sm-3 control-label">：</label>
-								<div class="col-sm-8">
-									<input id="modify" name="modify" class="form-control" type="text">
-								</div>
-							</div>
-																					<div class="form-group">
-								<label class="col-sm-3 control-label">：</label>
-								<div class="col-sm-8">
-									<input id="deleteIt" name="deleteIt" class="form-control" type="text">
-								</div>
-							</div>
-																					<div class="form-group">
-								<label class="col-sm-3 control-label">教练手机：</label>
-								<div class="col-sm-8">
-									<input id="mobile" name="mobile" class="form-control" type="text">
-								</div>
-							</div>
-																					<div class="form-group">
-								<div class="col-sm-8 col-sm-offset-3">
-									<button type="submit" class="btn btn-primary">提交</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-	</div>
-	</div>
-	<div th:include="include::footer"></div>
-	<script type="text/javascript" src="/js/appjs/boy/trainer/add.js">
-	</script>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">姓名：</label>
+                            <div class="col-sm-8">
+                                <input id="name" name="name" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">简介：</label>
+                            <div class="col-sm-8">
+                                <textarea id="shortDesc" name="shortDesc" rows="3" class="form-control" placeholder="无" type="text"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">头像：</label>
+                            <div class="col-sm-8">
+                                <!--<input id="pic" name="pic" placeholder="无" class="form-control" type="text">-->
+                                <div id="upload"></div>
+                                <img src="" style="display: none;" id="upload_org_code_img" width="250" height="150">
+                                <input type="hidden" id="file_upload_image" multiple="true" name="file">
+                                <input type="hidden" id="originimg" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">所属学校：</label>
+                            <div class="col-sm-8">
+                                <select id="schoolId" name="schoolId" class="form-control">
+                                    <option th:each="record,iterStat :${schoolList}" th:value="${record.id}" th:text="${record.name}">1</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">教练手机：</label>
+                            <div class="col-sm-8">
+                                <input id="mobile" name="mobile" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="uploadss"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include::footer"></div>
+
+
+<script type="text/javascript" src="/js/appjs/boy/trainer/add.js">
+</script>
+<script type="text/javascript">
+    $(function(){
+        var up = $('#upload').Huploadify({
+            auto:false,
+            fileTypeExts:'*.*',
+            multi:true,
+            formData:{key:123456,key2:'vvvv'},
+            fileSizeLimit:99999999999,
+            showUploadedPercent:true,
+            showUploadedSize:true,
+            removeTimeout:9999999,
+            uploader:'/file/upload',
+            onUploadStart:function(file){
+                console.log(file.name+'开始上传');
+            },
+            onInit:function(obj){
+                console.log('初始化');
+                console.log(obj);
+            },
+            onUploadComplete:function(file,data,response){
+                console.info("上传完成" + file + "--" + data + "--"+ response);
+            },
+            onCancel:function(file){
+                console.log(file.name+'删除成功');
+            },
+            onClearQueue:function(queueItemCount){
+                console.log('有'+queueItemCount+'个文件被删除了');
+            },
+            onDestroy:function(){
+                console.log('destroyed!');
+            },
+            onSelect:function(file){
+                console.log(file.name+'加入上传队列');
+            },
+            onQueueComplete:function(queueData){
+                console.log('队列中的文件全部上传完成',queueData);
+            }
+        });
+
+    });
+</script>
+
 </body>
 </html>

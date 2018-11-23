@@ -34,6 +34,7 @@ public class SchoolDO implements Serializable {
 	private String userAddname;
 	//修改人
 	private Long modify;
+	private  String modifyname;
 
 	/**
 	 * 设置：
@@ -140,6 +141,14 @@ public class SchoolDO implements Serializable {
 		this.userAddname = userAddname;
 	}
 
+	public String getModifyname() {
+		return modifyname;
+	}
+
+	public void setModifyname(String modifyname) {
+		this.modifyname = modifyname;
+	}
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
@@ -152,6 +161,7 @@ public class SchoolDO implements Serializable {
 				.append("userAdd", userAdd)
 				.append("userAddname", userAddname)
 				.append("modify", modify)
+				.append("modifyname", modifyname)
 				.toString();
 	}
 }

@@ -76,7 +76,7 @@ function load() {
 									title : '添加人' 
 								},
 																{
-									field : 'modify', 
+									field : 'modifyname',
 									title : '修改人' 
 								},
 																{

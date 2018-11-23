@@ -64,16 +64,16 @@ function load() {
 									title : '图片'
 								},
 																{
-									field : 'userAdd', 
+									field : 'userAddname',
 									title : '添加者'
 								},
 																{
-									field : 'modify', 
+									field : 'modifyname',
 									title : '修改者'
 								},
 																{
-									field : 'deleteIt', 
-									title : '状态'
+									field : 'schoolName',
+									title : '所属学校'
 								},
 																{
 									field : 'mobile', 

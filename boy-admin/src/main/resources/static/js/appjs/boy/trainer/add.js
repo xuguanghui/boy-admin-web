@@ -33,21 +33,40 @@ function save() {
 
 }
 function validateRule() {
-	var icon = "<i class='fa fa-times-circle'></i> ";
-	$("#signupForm").validate({
-		rules : {
-			name : {
-				required : true,
-                minlength : 6,
-                maxlength :220
-			}
-		},
-		messages : {
-			name : {
-				required : icon + "请输入姓名",
-                minlength : icon + "最少字符",
-                maxlength : icon + "最多字符"
-			}
-		}
-	})
+    var icon = "<i class='fa fa-times-circle'></i> ";
+    $("#signupForm").validate({
+        rules : {
+            name : {
+                required : true,
+                minlength : 2,
+                maxlength : 15
+            },
+            shortDesc : {
+                required : true,
+                minlength : 1,
+                maxlength : 255
+            },
+            mobile : {
+                maxlength : 15,
+                digits : true
+            }
+        },
+        messages : {
+            name : {
+                required : icon + "请输入您的姓名",
+                minlength : icon + "姓名必须2个字符以上",
+                maxlength : icon + "姓名不超过15个字符"
+            },
+            shortDesc : {
+                required : icon + "请输入简介",
+                minlength : icon + "简介至少1位数",
+                maxlength : icon + "简介不超过225个字符"
+            },
+            mobile : {
+                required : icon + "号码必选",
+                maxlength : icon + "号码不超过16位数",
+                digits : icon + "必须是数字"
+            }
+        }
+    })
 }

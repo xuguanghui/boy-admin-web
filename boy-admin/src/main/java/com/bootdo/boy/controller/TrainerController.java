@@ -1,27 +1,25 @@
 package com.bootdo.boy.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import com.bootdo.boy.domain.AdminDO;
+import com.bootdo.boy.domain.SchoolDO;
+import com.bootdo.boy.domain.SchoolTrainerDO;
 import com.bootdo.boy.domain.TrainerDO;
+import com.bootdo.boy.service.SchoolService;
 import com.bootdo.boy.service.TrainerService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
+import com.bootdo.common.utils.ShiroUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -34,8 +32,11 @@ import com.bootdo.common.utils.R;
 @Controller
 @RequestMapping("/boy/trainer")
 public class TrainerController {
+	private static final Logger logger = LoggerFactory.getLogger(TrainerController.class);
 	@Autowired
 	private TrainerService trainerService;
+	@Autowired
+	private SchoolService schoolService;
 	
 	@GetMapping()
 	String Trainer(){
@@ -54,7 +55,11 @@ public class TrainerController {
 	}
 	
 	@GetMapping("/add")
-	String add(){
+	String add(Model model){
+		Map<String,Object> param = new HashMap<>();
+
+		List<SchoolDO> schoolList = schoolService.list(param);
+		model.addAttribute("schoolList",schoolList);
 	    return "boy/trainer/add";
 	}
 	@GetMapping("/edit")
@@ -78,9 +83,17 @@ public class TrainerController {
 	@ResponseBody
 	@PostMapping("/save")
 	public R save( TrainerDO trainer){
-		if(trainerService.save(trainer)>0){
-			return R.ok();
+		try{
+			AdminDO currUser = ShiroUtils.getUser();
+			SchoolTrainerDO schoolTrainerDO = new SchoolTrainerDO();
+			trainer.setUserAdd((currUser == null)?0L:currUser.getId());
+			if(trainerService.save(trainer)>0){
+				return R.ok();
+			}
+		}catch (Exception e){
+			logger.error(" TrainerDO save error" + e.getMessage());
 		}
+
 		return R.error();
 	}
 	

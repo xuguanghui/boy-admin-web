@@ -1,7 +1,8 @@
 package com.bootdo.boy.domain;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serializable;
-import java.util.Date;
 
 
 
@@ -12,7 +13,7 @@ import java.util.Date;
  * @email ***
  * @date 2018-11-22 21:17:42
  */
-public class TrainerDO implements Serializable {
+public class TrainerDO extends BaseDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
@@ -31,6 +32,7 @@ public class TrainerDO implements Serializable {
 	private String deleteIt;
 	//教练手机
 	private String mobile;
+	private String schoolName;
 
 	private Long schoolId;
 
@@ -133,15 +135,33 @@ public class TrainerDO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "TrainerDO{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				", shortDesc='" + shortDesc + '\'' +
-				", pic='" + pic + '\'' +
-				", userAdd=" + userAdd +
-				", modify=" + modify +
-				", deleteIt='" + deleteIt + '\'' +
-				", mobile='" + mobile + '\'' +
-				'}';
+		return new ToStringBuilder(this)
+				.append("id", id)
+				.append("name", name)
+				.append("shortDesc", shortDesc)
+				.append("pic", pic)
+				.append("userAdd", userAdd)
+				.append("modify", modify)
+				.append("deleteIt", deleteIt)
+				.append("mobile", mobile)
+				.append("schoolName", schoolName)
+				.append("schoolId", schoolId)
+				.toString();
+	}
+
+	public Long getSchoolId() {
+		return schoolId;
+	}
+
+	public void setSchoolId(Long schoolId) {
+		this.schoolId = schoolId;
+	}
+
+	public String getSchoolName() {
+		return schoolName;
+	}
+
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
 	}
 }

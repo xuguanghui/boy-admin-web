@@ -3,7 +3,6 @@ package com.bootdo;
 import com.bootdo.blog.dao.BCommentsMapper;
 import com.bootdo.boy.dao.SchoolMapper;
 import com.bootdo.boy.dao.TrainerMapper;
-import com.bootdo.boy.domain.SchoolDO;
 import com.bootdo.boy.domain.TrainerDO;
 import com.bootdo.boy.service.AdminService;
 import com.bootdo.common.domain.Tree;
@@ -95,5 +94,13 @@ public class BootdoApplicationTests {
 			int re = trainerMapper.save(trainerDO);
 		System.out.println(re + "===========");
 
+	}
+	@Test
+	public  void test03(){
+	List<TrainerDO> list =	trainerMapper.list(null);
+		for (TrainerDO trainer:list
+			 ) {
+			System.out.println(trainer.toString());
+		}
 	}
 }
