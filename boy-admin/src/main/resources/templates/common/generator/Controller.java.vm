@@ -62,9 +62,9 @@ public class ${className}Controller {
 	String add(){
 	    return "${pathName}/${classname}/add";
 	}
-	@GetMapping("/edit")
+	@GetMapping("/edit/{id}")
 	//@RequiresPermissions("blog:bComments")
-	String edit(${pk.attrType} ${pk.attrname}, Model model){
+	String edit(@PathVariable("id")${pk.attrType} ${pk.attrname}, Model model){
 		${className}DO ${classname} = ${classname}Service.get(${pk.attrname});
 		model.addAttribute("${className}", ${classname});
 	    return "${pathName}/${classname}/edit";
@@ -97,7 +97,7 @@ public class ${className}Controller {
 	 */
 	@RequestMapping("/update")
 	@RequiresPermissions("${pathName}:update")
-	public R update(@RequestBody ${className}DO ${classname}){
+	public R update( ${className}DO ${classname}){
 		${classname}Service.update(${classname});
 		
 		return R.ok();

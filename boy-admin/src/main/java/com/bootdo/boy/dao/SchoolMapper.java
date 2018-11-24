@@ -25,7 +25,7 @@ public interface SchoolMapper {
 		  		  "<if test=\"id != null and id != ''\">"+ "and id = #{id} " + "</if>" + 
 		  		  "<if test=\"longitude != null and longitude != ''\">"+ "and longitude = #{longitude} " + "</if>" + 
 		  		  "<if test=\"latitude != null and latitude != ''\">"+ "and latitude = #{latitude} " + "</if>" + 
-		  		  "<if test=\"name != null and name != ''\">"+ "and name = #{name} " + "</if>" + 
+		  		  "<if test=\"name != null and name != ''\">"+ "and name like '%${name}%' " + "</if>" +
 		  		  "<if test=\"address != null and address != ''\">"+ "and address = #{address} " + "</if>" + 
 		  		  "<if test=\"deleteIt != null and deleteIt != ''\">"+ "and delete_it = #{deleteIt} " + "</if>" + 
 		  		  "<if test=\"userAdd != null and userAdd != ''\">"+ "and user_add = #{userAdd} " + "</if>" + 
@@ -58,7 +58,7 @@ public interface SchoolMapper {
 		  		  "<if test=\"id != null and id != ''\">"+ "and id = #{id} " + "</if>" + 
 		  		  "<if test=\"longitude != null and longitude != ''\">"+ "and longitude = #{longitude} " + "</if>" + 
 		  		  "<if test=\"latitude != null and latitude != ''\">"+ "and latitude = #{latitude} " + "</if>" + 
-		  		  "<if test=\"name != null and name != ''\">"+ "and name = #{name} " + "</if>" + 
+		  		  "<if test=\"name != null and name != ''\">"+ "and name like '%${name}%'" + "</if>" +
 		  		  "<if test=\"address != null and address != ''\">"+ "and address = #{address} " + "</if>" + 
 		  		  "<if test=\"deleteIt != null and deleteIt != ''\">"+ "and delete_it = #{deleteIt} " + "</if>" + 
 		  		  "<if test=\"userAdd != null and userAdd != ''\">"+ "and user_add = #{userAdd} " + "</if>" + 
@@ -69,6 +69,7 @@ public interface SchoolMapper {
 	
 	@Insert("insert into school (`longitude`, `latitude`, `name`, `address`,`delete_it`, `user_add`, `modify`)"
 	+ "values (#{longitude}, #{latitude}, #{name}, #{address}, #{deleteIt}, #{userAdd}, #{modify})")
+	@Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
 	int save(SchoolDO school);
 	
 	@Update("<script>"+ 

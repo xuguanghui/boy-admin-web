@@ -1,5 +1,6 @@
 package com.bootdo.common.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
@@ -21,8 +22,10 @@ public class MD5Utils {
 		return newPassword;
 	}
 	public static void main(String[] args) {
-		
-		System.out.println(MD5Utils.encrypt("admin", "1"));
+		String preStr = "a.aaa.txt";
+
+		String test = String.valueOf(System.currentTimeMillis());
+		System.out.println(MD5Utils.encrypt(test, "file"));
 	}
 
 }

@@ -3,7 +3,7 @@ package com.bootdo.boy.domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
-
+import java.util.List;
 
 
 /**
@@ -33,8 +33,8 @@ public class TrainerDO extends BaseDO implements Serializable {
 	//教练手机
 	private String mobile;
 	private String schoolName;
-
 	private Long schoolId;
+	private List<Long> schoolIds;
 
 	/**
 	 * 设置：
@@ -147,6 +147,14 @@ public class TrainerDO extends BaseDO implements Serializable {
 				.append("schoolName", schoolName)
 				.append("schoolId", schoolId)
 				.toString();
+	}
+
+	public List<Long> getSchoolIds() {
+		return schoolIds;
+	}
+
+	public void setSchoolIds(List<Long> schoolIds) {
+		this.schoolIds = schoolIds;
 	}
 
 	public Long getSchoolId() {

@@ -67,6 +67,7 @@ public interface ${className}Mapper {
         "<if test=\"$column.attrname != null\">#{$column.attrname}, </if>" +
 #end			
 #end "</trim></script>")
+    @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
 	int save(${className}DO ${classname});
 	
 	@Update("<script>"+ 

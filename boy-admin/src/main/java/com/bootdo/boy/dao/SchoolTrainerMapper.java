@@ -83,6 +83,8 @@ public interface SchoolTrainerMapper {
 	
 	@Delete("delete from school_trainer where school_id =#{schoolId}")
 	int remove(Long school_id);
+	@Delete("delete from school_trainer where trainer_id =#{trainerId}")
+	int removeByTrainerId(Long trainerId);
 	
 	@Delete("<script>"+ 
 			"delete from school_trainer where school_id in " + 

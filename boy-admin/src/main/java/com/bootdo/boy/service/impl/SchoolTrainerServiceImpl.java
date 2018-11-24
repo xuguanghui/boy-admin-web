@@ -40,12 +40,15 @@ public class SchoolTrainerServiceImpl implements SchoolTrainerService {
 	public int update(SchoolTrainerDO schoolTrainer){
 		return schoolTrainerMapper.update(schoolTrainer);
 	}
-	
+
 	@Override
 	public int remove(Long schoolId){
 		return schoolTrainerMapper.remove(schoolId);
 	}
-	
+	@Override
+	public int removeByTrainerId(Long trainerId){
+		return schoolTrainerMapper.removeByTrainerId(trainerId);
+	}
 	@Override
 	public int batchRemove(Long[] schoolIds){
 		return schoolTrainerMapper.batchRemove(schoolIds);

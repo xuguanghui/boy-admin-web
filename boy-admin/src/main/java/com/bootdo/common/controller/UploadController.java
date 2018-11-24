@@ -1,5 +1,8 @@
 package com.bootdo.common.controller;
 
+import com.bootdo.common.utils.MD5Utils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author tanglei
- *         文件上传
+ * @author xgh
+ * 文件上传
  */
 @Controller
 @RequestMapping("/file")
@@ -54,7 +57,7 @@ public class UploadController {
         } else {
             path = PropertyReader.getProperty("user_upload_path") + user.getName() + "_" + user.getId() + "/" + time;
         }*/
-        path =  user_upload_path + "/text" + "_" + "1024" + "/" + time;
+        path =  user_upload_path + "text" + "_" + "1024" + "/" + time;
         //file:上传上来的文件 //uploadFile：文件存储位置 //targetFile：重命名后的文件
         File uploadFile = new File(path);
         if (!uploadFile.exists()) {
@@ -62,7 +65,8 @@ public class UploadController {
         }
         //原文件名
         String originalFilename = file.getOriginalFilename();
-        File targetFile = new File(path, originalFilename);
+        String encryptName = encrypt(originalFilename);
+        File targetFile = new File(path, encryptName);
         //保存
         try {
             file.transferTo(targetFile);
@@ -76,4 +80,13 @@ public class UploadController {
         result.put("fileId", time);
         return result;
     }
+    private String encrypt(String filename){
+        filename = (filename == null)?"defalt.jpg":filename;
+        int index = StringUtils.lastIndexOf(filename,".");
+        String pre =  StringUtils.substring(filename,0,index);
+        String suffix = StringUtils.substring(filename,index);
+        pre = MD5Utils.encrypt(String.valueOf(System.currentTimeMillis()), "file");
+        return pre + suffix;
+    }
 }
+

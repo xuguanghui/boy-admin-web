@@ -27,4 +27,5 @@ public interface SchoolTrainerService {
 	int remove(Long schoolId);
 	
 	int batchRemove(Long[] schoolIds);
+	int removeByTrainerId(Long trainerId);
 }

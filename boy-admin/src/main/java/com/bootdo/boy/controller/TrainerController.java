@@ -5,6 +5,7 @@ import com.bootdo.boy.domain.SchoolDO;
 import com.bootdo.boy.domain.SchoolTrainerDO;
 import com.bootdo.boy.domain.TrainerDO;
 import com.bootdo.boy.service.SchoolService;
+import com.bootdo.boy.service.SchoolTrainerService;
 import com.bootdo.boy.service.TrainerService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
@@ -37,6 +38,8 @@ public class TrainerController {
 	private TrainerService trainerService;
 	@Autowired
 	private SchoolService schoolService;
+	@Autowired
+	private SchoolTrainerService schoolTrainerService;
 	
 	@GetMapping()
 	String Trainer(){
@@ -62,10 +65,14 @@ public class TrainerController {
 		model.addAttribute("schoolList",schoolList);
 	    return "boy/trainer/add";
 	}
-	@GetMapping("/edit")
-	String edit(Long id , Model model){
+	@GetMapping("/edit/{id}")
+	String edit(@PathVariable("id")Long id , Model model){
 		TrainerDO trainer = trainerService.get(id);
-		model.addAttribute("Trainer", trainer);
+		model.addAttribute("record", trainer);
+
+		Map<String,Object> param = new HashMap<>();
+		List<SchoolDO> schoolList = schoolService.list(param);
+		model.addAttribute("schoolList",schoolList);
 	    return "boy/trainer/edit";
 	}
 	/**
@@ -85,7 +92,7 @@ public class TrainerController {
 	public R save( TrainerDO trainer){
 		try{
 			AdminDO currUser = ShiroUtils.getUser();
-			SchoolTrainerDO schoolTrainerDO = new SchoolTrainerDO();
+
 			trainer.setUserAdd((currUser == null)?0L:currUser.getId());
 			if(trainerService.save(trainer)>0){
 				return R.ok();
@@ -101,10 +108,20 @@ public class TrainerController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	public R update(@RequestBody TrainerDO trainer){
-		trainerService.update(trainer);
-		
-		return R.ok();
+	@ResponseBody
+	public R update(TrainerDO trainer){
+		try{
+			AdminDO currUser = ShiroUtils.getUser();
+
+			trainer.setUserAdd((currUser == null)?0L:currUser.getId());
+			if(trainerService.update(trainer)>0){
+				return R.ok();
+			}
+		}catch (Exception e){
+			logger.error(" TrainerDO update error" + e.getMessage());
+		}
+
+		return R.error();
 	}
 	
 	

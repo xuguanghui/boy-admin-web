@@ -24,7 +24,7 @@ public interface TrainerMapper {
 	"select tr.*,sc.`name` as schoolName FROM trainer  tr LEFT JOIN school_trainer st on tr.id=st.trainer_id LEFT JOIN school sc on st.school_id=sc.id " +
 			"<where>" + 
 		  		  "<if test=\"id != null and id != ''\">"+ "and tr.id = #{id} " + "</if>" +
-		  		  "<if test=\"name != null and name != ''\">"+ "and tr.name = #{name} " + "</if>" +
+		  		  "<if test=\"name != null and name != ''\">"+ "and tr.name like '%${name}%' " + "</if>" +
 		  		  "<if test=\"shortDesc != null and shortDesc != ''\">"+ "and tr.short_desc = #{shortDesc} " + "</if>" +
 		  		  "<if test=\"pic != null and pic != ''\">"+ "and tr.pic = #{pic} " + "</if>" +
 		  		  "<if test=\"userAdd != null and userAdd != ''\">"+ "and tr.user_add = #{userAdd} " + "</if>" +
@@ -58,7 +58,7 @@ public interface TrainerMapper {
 	"select count(*) from trainer " + 
 			"<where>" + 
 		  		  "<if test=\"id != null and id != ''\">"+ "and id = #{id} " + "</if>" + 
-		  		  "<if test=\"name != null and name != ''\">"+ "and name = #{name} " + "</if>" + 
+		  		  "<if test=\"name != null and name != ''\">"+ "and name like '%${name}%' " + "</if>" +
 		  		  "<if test=\"shortDesc != null and shortDesc != ''\">"+ "and short_desc = #{shortDesc} " + "</if>" + 
 		  		  "<if test=\"pic != null and pic != ''\">"+ "and pic = #{pic} " + "</if>" + 
 		  		  "<if test=\"userAdd != null and userAdd != ''\">"+ "and user_add = #{userAdd} " + "</if>" + 
@@ -87,6 +87,7 @@ public interface TrainerMapper {
         "<if test=\"deleteIt != null\">#{deleteIt}, </if>" +
         "<if test=\"mobile != null\">#{mobile}, </if>" +
  "</trim></script>")
+	@Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
 	int save(TrainerDO trainer);
 	
 	@Update("<script>"+ 

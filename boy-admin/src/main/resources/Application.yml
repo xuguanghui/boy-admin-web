@@ -23,4 +23,4 @@ mybatis:
     map-underscore-to-camel-case: true
 com:
   xu:
-    path: D:/test/tmp
+    path: /Users/xuguanghui/Downloads/uploadpath/

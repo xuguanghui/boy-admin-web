@@ -61,7 +61,14 @@ function load() {
 								},
 																{
 									field : 'pic', 
-									title : '图片'
+									title : '图片',
+									formatter : function(value, row, index) {
+										var e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="查看" onclick="show(\''
+											+ value
+											+ '\')"><i class="fa fa-search"></i></a> ';
+
+										return e  ;
+									}
 								},
 																{
 									field : 'userAddname',
@@ -119,6 +126,17 @@ function edit(id) {
 		shadeClose : false, // 点击遮罩关闭层
 		area : [ '800px', '520px' ],
 		content : prefix + '/edit/' + id // iframe的url
+	});
+}
+function show(path) {
+	layer.open({
+		type: 1,
+		title: false,
+		closeBtn: 0,
+		area: '200px',
+		skin: 'layui-layer-nobg', //没有背景色
+		shadeClose : true, // 点击遮罩关闭层
+		content :'<img src="/image'+path +'" width="200" height="200" >'
 	});
 }
 function remove(id) {
